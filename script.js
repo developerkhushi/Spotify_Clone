@@ -11,18 +11,19 @@ let songItems = Array.from(document.getElementsByClassName('songItem'));
 let songs = [
     {songName: 'Shiddat Title Track', filePath: 'songs/1.mp3', coverPath: 'covers/cover1.jpg'},
     {songName: 'Phir Bhi Tumko chaahunga', filePath: 'songs/2.mp3', coverPath: 'covers/cover2.jpg'},
-    {songName: 'Tum Hi Aana', filePath: 'songs/1.mp3', coverPath: 'covers/cover3.jpg'},
-    {songName: 'Dil Ko Karaar Aaya', filePath: 'songs/1.mp3', coverPath: 'covers/cover4.jpg'},
-    {songName: 'Thoda Thoda Pyar', filePath: 'songs/1.mp3', coverPath: 'covers/cover5.jpg'},
-    {songName: 'Dil Mein Ho Tum', filePath: 'songs/1.mp3', coverPath: 'covers/cover6.jpg'},
-    {songName: 'Phir Mulaqaat', filePath: 'songs/1.mp3', coverPath: 'covers/cover7.jpg'},
-    {songName: 'Dhadak Title Track', filePath: 'songs/1.mp3', coverPath: 'covers/cover8.jpg'},
-    {songName: 'Phir Chala', filePath: 'songs/1.mp3', coverPath: 'covers/cover9.jpg'}
+    {songName: 'Tum Hi Aana', filePath: 'songs/3.mp3', coverPath: 'covers/cover3.jpg'},
+    {songName: 'Dil Ko Karaar Aaya', filePath: 'songs/4.mp3', coverPath: 'covers/cover4.jpg'},
+    {songName: 'Thoda Thoda Pyar', filePath: 'songs/5.mp3', coverPath: 'covers/cover5.jpg'},
+    {songName: 'Dil Mein Ho Tum', filePath: 'songs/6.mp3', coverPath: 'covers/cover6.jpg'},
+    {songName: 'Phir Mulaqaat', filePath: 'songs/7.mp3', coverPath: 'covers/cover7.jpg'},
+    {songName: 'Dhadak Title Track', filePath: 'songs/8.mp3', coverPath: 'covers/cover8.jpg'},
+    {songName: 'Phir Chala', filePath: 'songs/9.mp3', coverPath: 'covers/cover9.jpg'}
 ]
 
 songItems.forEach((element, i) => {
     element.getElementsByTagName("img")[0].src = songs[i].coverPath;
     element.getElementsByClassName("songName")[0].innerText = songs[i].songName;
+
 });
 // Handle play/pause click
 masterPlay.addEventListener('click', ()=>{
@@ -57,6 +58,7 @@ const makeAllPlays = ()=>{
         element.classList.add('fa-play-circle');
     })
 }
+
 Array.from(document.getElementsByClassName('songItemPlay')).forEach((element)=>{
     element.addEventListener('click', (e)=>{
     makeAllPlays();
@@ -73,6 +75,7 @@ Array.from(document.getElementsByClassName('songItemPlay')).forEach((element)=>{
     })
 })
 
+// For next button
 document.getElementById('next').addEventListener('click', ()=>{
     if(songIndex>=9){
         songIndex = 0;
@@ -89,6 +92,7 @@ document.getElementById('next').addEventListener('click', ()=>{
     masterPlay.classList.add('fa-pause-circle');
 })
 
+// For previous button
 document.getElementById('previous').addEventListener('click', ()=>{
     if(songIndex<=0){
         songIndex = 0;
@@ -104,3 +108,20 @@ document.getElementById('previous').addEventListener('click', ()=>{
     masterPlay.classList.remove('fa-play-circle');
     masterPlay.classList.add('fa-pause-circle');
 })
+
+const playNextSound = () => {
+    audioElement.src = `songs/${songIndex+2}.mp3`;
+    masterSongName.innerText = songs[songIndex+1].songName;
+    audioElement.currentTime = 0;
+    audioElement.play();
+    gif.style.opacity = 1;
+    masterPlay.classList.remove('fa-play-circle');
+    masterPlay.classList.add('fa-pause-circle');
+};
+
+// For playing next song
+    audioElement.addEventListener('ended', () => {
+        if (audioElement.currentTime == audioElement.duration) {
+            playNextSound();
+        }
+      });
